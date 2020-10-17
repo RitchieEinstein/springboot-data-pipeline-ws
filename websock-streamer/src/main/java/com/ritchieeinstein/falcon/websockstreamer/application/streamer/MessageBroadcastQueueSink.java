@@ -2,8 +2,10 @@ package com.ritchieeinstein.falcon.websockstreamer.application.streamer;
 
 import com.google.gson.Gson;
 import com.ritchieeinstein.falcon.websockstreamer.application.request.PayloadRequest;
+import com.ritchieeinstein.falcon.websockstreamer.domain.service.WebSocketMessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Sink;
@@ -20,17 +22,23 @@ import java.util.Set;
 public class MessageBroadcastQueueSink {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageBroadcastQueueSink.class);
+    private static final Gson gson = new Gson();
+
+    @Autowired
+    private WebSocketMessageService webSocketMessageService;
 
     @StreamListener(target = Sink.INPUT)
-    public void processIncomingPayload(String payload){
+    public void processIncomingPayload(String payload) throws Exception {
         LOGGER.debug(payload);
-        PayloadRequest req = new Gson().fromJson(payload, PayloadRequest.class);
-        LOGGER.debug(req.getContent() + " : " + req.getTimestamp());
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Set constraints = factory.usingContext().getValidator().validate(req);
-        for(Object violation: constraints){
-            LOGGER.error(violation.toString());
+        PayloadRequest req = gson.fromJson(payload, PayloadRequest.class);
+        Set constraints = Validation.buildDefaultValidatorFactory().usingContext().getValidator().validate(req);
+        if(constraints.stream().count() > 0){
+            for(Object violation: constraints){
+                LOGGER.error(violation.toString());
+            }
+            throw new Exception("Validation Failed");
         }
+        webSocketMessageService.pushSocketFrame(req.getMessagePayload());
     }
 
 }
