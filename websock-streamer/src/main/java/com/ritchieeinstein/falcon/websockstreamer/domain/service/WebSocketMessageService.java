@@ -1,8 +1,8 @@
 package com.ritchieeinstein.falcon.websockstreamer.domain.service;
 
-import javax.validation.Payload;
+import com.ritchieeinstein.falcon.websockstreamer.domain.model.MessagePayload;
 
 public interface WebSocketMessageService {
 
-    void pushSocketFrame(Payload payload);
+    void pushSocketFrame(MessagePayload payload);
 }
