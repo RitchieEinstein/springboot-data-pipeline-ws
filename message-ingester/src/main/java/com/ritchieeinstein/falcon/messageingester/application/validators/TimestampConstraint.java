@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TimestampConstraint {
 
-    String message() default "Timestamp not Valid";
+    String message() default "must be valid format (yyyy-MM-dd HH:mm:ssZ) ";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 
