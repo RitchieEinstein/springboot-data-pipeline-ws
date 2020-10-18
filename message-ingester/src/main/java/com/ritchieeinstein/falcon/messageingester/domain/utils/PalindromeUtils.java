@@ -17,7 +17,7 @@ public class PalindromeUtils {
     }
 
     private int compareNeighbours(char[] arr, int left, int right){
-        while(left-- >= 0 && right++ < arr.length && (Character.isAlphabetic(arr[left] )|| Character.isAlphabetic(arr[right]))
+        while(left >= 0 && right < arr.length && (Character.isAlphabetic(arr[left] )|| Character.isAlphabetic(arr[right]))
             && arr[left] == arr[right]){
             left--;
             right++;
