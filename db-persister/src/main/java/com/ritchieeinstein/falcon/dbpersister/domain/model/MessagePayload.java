@@ -29,4 +29,8 @@ public class MessagePayload {
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
+
+    public UUID getId() {
+        return id;
+    }
 }
