@@ -1,10 +1,19 @@
 package com.ritchieeinstein.falcon.messageingester.application.response;
 
+import com.ritchieeinstein.falcon.messageingester.domain.model.MessagePayload;
+import com.ritchieeinstein.falcon.messageingester.domain.utils.PalindromeUtils;
+
 public class EnrichedMessageDTO {
 
     private String content;
     private String timestamp;
     private long longestPalindromeSize;
+
+    public EnrichedMessageDTO(MessagePayload payload){
+        this.content = payload.getContent();
+        this.timestamp = payload.getTimestamp();
+        this.longestPalindromeSize = new PalindromeUtils().getLongestPalindromeLength(content);
+    }
 
     public String getContent() {
         return content;
