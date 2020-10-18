@@ -31,7 +31,7 @@ public class MessageBroadcastQueueSink {
         LOGGER.debug(payload);
         PayloadRequest req = gson.fromJson(payload, PayloadRequest.class);
         Set constraints = Validation.buildDefaultValidatorFactory().usingContext().getValidator().validate(req);
-        if(constraints.stream().count() > 0){
+        if((long) constraints.size() > 0){
             for(Object violation: constraints){
                 LOGGER.error(violation.toString());
             }
