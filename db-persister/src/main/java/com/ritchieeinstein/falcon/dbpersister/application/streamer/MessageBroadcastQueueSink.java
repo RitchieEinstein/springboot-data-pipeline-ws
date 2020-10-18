@@ -2,8 +2,10 @@ package com.ritchieeinstein.falcon.dbpersister.application.streamer;
 
 import com.google.gson.Gson;
 import com.ritchieeinstein.falcon.dbpersister.application.request.PayloadRequest;
+import com.ritchieeinstein.falcon.dbpersister.domain.service.PayloadService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Sink;
@@ -21,6 +23,9 @@ public class MessageBroadcastQueueSink {
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageBroadcastQueueSink.class);
     private static final Gson gson = new Gson();
 
+    @Autowired
+    private PayloadService service;
+
     @StreamListener(target = Sink.INPUT)
     public void processIncomingPayload(String payload) throws Exception {
         LOGGER.debug(payload);
@@ -32,6 +37,7 @@ public class MessageBroadcastQueueSink {
             }
             throw new Exception("Validation Failed");
         }
+        service.save(req.getMessagePayload());
     }
 
 }
