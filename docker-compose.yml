@@ -1,0 +1,60 @@
+version: '3.7'
+
+services:
+
+  rabbit:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "61613:61613"
+    restart: always
+    networks:
+      - p1
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    restart: always
+    networks:
+      - p1
+
+  db-persister:
+    build:
+      context: db-persister
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - message-ingester
+      - mongo
+    networks:
+      - p1
+
+  message-ingester:
+    build:
+      context: message-ingester
+      dockerfile: Dockerfile
+    ports:
+      - "10001:10000"
+    restart: always
+    depends_on:
+      - rabbit
+    networks:
+      - p1
+    
+  websock-streamer:
+    build:
+      context: websock-streamer
+      dockerfile: Dockerfile
+    ports:
+      - "11001:11000"
+    restart: always
+    depends_on:
+      - rabbit
+      - message-ingester
+    networks:
+      - p1
+
+networks:
+  p1:

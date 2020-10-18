@@ -1,6 +1,7 @@
 package com.ritchieeinstein.falcon.messageingester.application.rest.controller;
 
 import com.ritchieeinstein.falcon.messageingester.application.request.PayloadRequest;
+import com.ritchieeinstein.falcon.messageingester.application.response.EnrichedMessageDTO;
 import com.ritchieeinstein.falcon.messageingester.application.response.GenericResponse;
 import com.ritchieeinstein.falcon.messageingester.domain.service.MessagePayloadService;
 import org.slf4j.Logger;
@@ -9,11 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import java.util.List;
 
 @RestController
 @Validated
@@ -31,5 +33,13 @@ public class PayloadController {
         return new ResponseEntity<>(new GenericResponse<>(payloadRequest), HttpStatus.ACCEPTED);
     }
 
+    @GetMapping("/message/all")
+    public List<EnrichedMessageDTO> getAllEnrichedMessages(){
+        return messagePayloadService.getAllMessages();
+    }
 
+    @GetMapping(value = "/message", params = {"page","size"})
+    public List<EnrichedMessageDTO> getMessagesWithPagination(@RequestParam("page") @Min(0) int page, @RequestParam("size") @Min(0) @Max(25) int size){
+        return messagePayloadService.getMessagesWithPagination(page, size);
+    }
 }
