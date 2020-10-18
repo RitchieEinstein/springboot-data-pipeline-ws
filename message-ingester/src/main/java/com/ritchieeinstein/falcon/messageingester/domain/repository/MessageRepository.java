@@ -7,4 +7,6 @@ import java.util.List;
 public interface MessageRepository {
 
     List<MessagePayload> getAllPayloads();
+
+    List<MessagePayload>  getMessagesWithPagination(int pageNum, int size);
 }

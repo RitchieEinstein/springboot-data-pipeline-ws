@@ -32,4 +32,9 @@ public class MessagePayloadServiceImpl implements MessagePayloadService{
         List<MessagePayload> messagePayloads = messageRepository.getAllPayloads();
         return messagePayloads.stream().map(EnrichedMessageDTO::new).collect(Collectors.toList());
     }
+
+    @Override
+    public List<EnrichedMessageDTO> getMessagesWithPagination(int pageNum, int pageSize){
+        return messageRepository.getMessagesWithPagination(pageNum,pageSize).stream().map(EnrichedMessageDTO::new).collect(Collectors.toList());
+    }
 }

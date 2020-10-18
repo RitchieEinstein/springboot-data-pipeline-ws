@@ -11,4 +11,6 @@ public interface MessagePayloadService {
     void pushMessageIntoQueue(MessagePayload payload);
 
     List<EnrichedMessageDTO> getAllMessages();
+
+    List<EnrichedMessageDTO> getMessagesWithPagination(int pageNum, int pageSize);
 }
