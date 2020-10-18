@@ -13,7 +13,7 @@ public class RelayWebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableStompBrokerRelay("/topic").setRelayHost("localhost")
+        config.enableStompBrokerRelay("/topic").setRelayHost("rabbit")
                 .setRelayPort(61613)
                 .setClientLogin("guest").setClientPasscode("guest");
         config.setApplicationDestinationPrefixes("/app");
