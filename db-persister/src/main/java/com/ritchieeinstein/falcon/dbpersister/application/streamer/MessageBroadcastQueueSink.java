@@ -35,7 +35,7 @@ public class MessageBroadcastQueueSink {
             for(Object violation: constraints){
                 LOGGER.error(violation.toString());
             }
-            throw new Exception("Validation Failed");
+            return;
         }
         service.save(req.getMessagePayload());
     }
