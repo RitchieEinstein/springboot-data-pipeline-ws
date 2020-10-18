@@ -1,14 +1,17 @@
 package com.ritchieeinstein.falcon.dbpersister.domain.model;
 
+import java.util.UUID;
+
 public class MessagePayload {
 
+    private UUID id;
     private String content;
-
     private String timestamp;
 
     public MessagePayload(String content, String timestamp) {
         this.content = content;
         this.timestamp = timestamp;
+        this.id = UUID.randomUUID();
     }
 
     public String getContent() {
