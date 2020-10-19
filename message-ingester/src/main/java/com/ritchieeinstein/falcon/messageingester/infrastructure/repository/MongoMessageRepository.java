@@ -15,8 +15,16 @@ import java.util.List;
 @Repository
 public class MongoMessageRepository implements MessageRepository {
 
-    @Autowired
     private MongoTemplate mongoTemplate;
+
+    @Autowired
+    public void setMongoTemplate(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
+
+    public MongoMessageRepository(MongoTemplate mongoTemplate){
+        this.mongoTemplate = mongoTemplate;
+    }
 
     @Override
     public List<MessagePayload> getAllPayloads() {

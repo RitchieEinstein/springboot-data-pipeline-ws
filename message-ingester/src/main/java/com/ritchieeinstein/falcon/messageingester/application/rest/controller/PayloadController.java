@@ -21,10 +21,17 @@ import java.util.List;
 @Validated
 public class PayloadController {
 
-    private Logger LOGGER = LoggerFactory.getLogger(PayloadController.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(PayloadController.class);
+    private MessagePayloadService messagePayloadService;
+
+    public PayloadController(MessagePayloadService messagePayloadService){
+        this.messagePayloadService = messagePayloadService;
+    }
 
     @Autowired
-    private MessagePayloadService messagePayloadService;
+    public void setMessagePayloadService(MessagePayloadService messagePayloadService) {
+        this.messagePayloadService = messagePayloadService;
+    }
 
     @PostMapping("/message")
     public ResponseEntity<GenericResponse<PayloadRequest>> ingestMessagePayload(@Valid @RequestBody PayloadRequest payloadRequest){
