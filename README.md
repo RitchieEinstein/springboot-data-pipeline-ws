@@ -19,7 +19,10 @@ To skip to the Usage part - [click here](#usage-instructions)
 ## System Design
 The Entire System is designed in Spring Environment and many spring projects are utilized to achieve a robust microservice env.
 
-**Spring Cloud Stream** is the backbone for the entire messaging infrastructure. It is cohesive and can plug and play many leading messaging systems.  
+**Spring Cloud Stream** is the backbone for the entire messaging infrastructure. It is cohesive and can plug and play many leading messaging systems.
+
+**Spring WebSocket** is used for websockets streaming purpose. **RabbitMQ is used as a Message Relay host for subscribers** so that the application can scale easily.
+For each subscriber a temporary queue will be created till the session is active. (Huge thanks to STOMP and AQMP).  
 
 The System Design Architecture diagram is as follows.
 
@@ -31,6 +34,22 @@ This service acts as the API Endpoints host. The main task of this service are a
 - API to consume incoming messages and perform basic sanity and push them into the queue.
 - API to pull all messages / paginated message list from the database.
 - Util Method to calculate the palindrome length as per the requirement.
+
+#### Websock-Streamer Service
+This service acts as the websocket server for the streamed message. This service listens to the queue which gets the pushed messages 
+and broadcast those messages to all the subscribers.
+
+- Act as the Websocket Server for the Browser client.
+- Host a static HTML page which has js code to subscribe and listen to the websockets.
+- Relay the Messages to RabbitMQ relay host to help the application scale properly.
+
+#### DB-Persister Service
+This service is straight forward. It listens to the messaging queue and once the message has arrived it will persist into the DB.
+
+Note: Initial idea was to batch the push messages. But in order to reduce the delay in eventual consistency for the GET APIs, we're 
+performing an instant push.
+
+- Listen to queue and persist them into DB.
 
 ## Usage Instructions
 
