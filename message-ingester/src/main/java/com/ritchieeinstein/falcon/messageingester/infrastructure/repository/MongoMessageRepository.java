@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @EnableMongoRepositories
@@ -28,6 +29,7 @@ public class MongoMessageRepository implements MessageRepository {
 
     @Override
     public List<MessagePayload> getAllPayloads() {
+        System.out.println("SERVER CALLED " + new Date());
         return mongoTemplate.findAll(MessagePayload.class, "messagePayload");
     }
 
