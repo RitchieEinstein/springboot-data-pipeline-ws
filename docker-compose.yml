@@ -3,7 +3,7 @@ version: '3.7'
 services:
 
   rabbit:
-    image: rabbitmq:3-management
+    image: activiti/rabbitmq-stomp
     ports:
       - "5672:5672"
       - "15672:15672"
