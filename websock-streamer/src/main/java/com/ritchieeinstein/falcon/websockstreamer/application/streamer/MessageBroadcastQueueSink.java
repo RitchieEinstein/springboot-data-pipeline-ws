@@ -24,15 +24,23 @@ public class MessageBroadcastQueueSink {
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageBroadcastQueueSink.class);
     private static final Gson gson = new Gson();
 
-    @Autowired
     private WebSocketMessageService webSocketMessageService;
+
+    public MessageBroadcastQueueSink(WebSocketMessageService webSocketMessageService) {
+        this.webSocketMessageService = webSocketMessageService;
+    }
+
+    @Autowired
+    public void setWebSocketMessageService(WebSocketMessageService webSocketMessageService) {
+        this.webSocketMessageService = webSocketMessageService;
+    }
 
     @StreamListener(target = Sink.INPUT)
     public void processIncomingPayload(String payload) throws Exception {
         LOGGER.debug(payload);
         PayloadRequest req = gson.fromJson(payload, PayloadRequest.class);
         Set constraints = Validation.buildDefaultValidatorFactory().usingContext().getValidator().validate(req);
-        if(constraints.stream().count() > 0){
+        if((long) constraints.size() > 0){
             for(Object violation: constraints){
                 LOGGER.error(violation.toString());
             }
