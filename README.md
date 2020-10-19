@@ -1,23 +1,27 @@
 # Data Pipeline Processor (Persist & Websock Broadcast)
 
-##Overview
+## Overview
 This Application has been designed as an aggregation of 3 microservices (whose responsibilities
 explained in later parts). For the Pub/Sub processing, RabbitMQ has been chosen as the Messaging system.
 
 ## Installation
 
-The Project is containerized and can be started with the docker compose. Since this is a microservice environment,
-to avoid multiple redundact commands to execute, a shell script has been attached to the project. Please execute
+The Project has been containerized and can be started with the docker compose. Since this is a microservice environment,
+to avoid multiple redundant commands to execute, a shell script has been attached to the project. Please execute
 the following command from the base folder of the project to start the application.
 
 `./initialize-and-start.sh`
 
 The command will take a while to build all the docker images of the microservices and initiate the docker compose.
 
+## System Design
+The System Design Architecture diagram is as follows.<br>
+![ArchitectureDiagram](architecture-diagram.png)
+
 ## Usage Instructions
 
 The main mode of data ingress for the application is through the REST API. The data egress points are REST API and browser 
-client listening to the Websocket broadcast.
+client listening to the Websockets broadcast.
 
 ### API Endpoints
 Here is the list of exposed API endpoints.
@@ -25,11 +29,11 @@ Here is the list of exposed API endpoints.
 ```http
 POST /api/message
 ```
-#####RequestBody
+##### RequestBody
 ```json
 {"content":"string_to_be_sent","timestamp":"yyyy-MM-dd HH:mm:ssZ"}
 ```
-#####Response
+##### Response
 ```json
 {
     "message": {
@@ -46,7 +50,7 @@ POST /api/message
 GET /api/message/all
 ```
 
-#####Response
+##### Response
 ```json
 [
   {
