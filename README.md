@@ -28,6 +28,7 @@ The System Design Architecture diagram is as follows.
 
 ![ArchitectureDiagram](architecture-diagram.png)
 
+### Microservices
 #### Message-Ingester Service
 This service acts as the API Endpoints host. The main task of this service are as follows.
 
@@ -50,6 +51,21 @@ Note: Initial idea was to batch the push messages. But in order to reduce the de
 performing an instant push.
 
 - Listen to queue and persist them into DB.
+
+### External Systems
+
+#### RabbitMQ - Messaging System
+RabbitMQ was chosen for this design mainly because of Ordered Message Delivery in a Broadcast Scenario. (One queue needs to be broadcasted for all subscribers. Kafka will lose the edge over rabbit here).
+
+RabbitMQ also acts a best Relay host Option for the Websockets since it supports STOMP through plugin directly.
+
+Cloud Stream natively supports Kafka and RabbitMQ. Since kafka doesn't have a clear edge over Rabbit in both Scenario, Rabbit was chosen.
+
+#### MongoDB - Data Persistence
+The main reason to choose NoSQL over SQL is the requirement. Data Pipelines are mostly write heavy and ACID provided by SQL databases are not required here. Sharding should also be taken into account over time
+and mongo (or many other NoSQL) provides a good edge over the SQL systems over here.
+ 
+Mongo was also chosen for its simplicity in implementation. (Even though it doesn't support SpringJPA, MongoTemplates does the job neatly).
 
 ## Usage Instructions
 
