@@ -14,9 +14,23 @@ the following command from the base folder of the project to start the applicati
 
 The command will take a while to build all the docker images of the microservices and initiate the docker compose.
 
+To skip to the Usage part - [click here](#usage-instructions)
+
 ## System Design
-The System Design Architecture diagram is as follows.<br>
+The Entire System is designed in Spring Environment and many spring projects are utilized to achieve a robust microservice env.
+
+**Spring Cloud Stream** is the backbone for the entire messaging infrastructure. It is cohesive and can plug and play many leading messaging systems.  
+
+The System Design Architecture diagram is as follows.
+
 ![ArchitectureDiagram](architecture-diagram.png)
+
+#### Message-Ingester Service
+This service acts as the API Endpoints host. The main task of this service are as follows.
+
+- API to consume incoming messages and perform basic sanity and push them into the queue.
+- API to pull all messages / paginated message list from the database.
+- Util Method to calculate the palindrome length as per the requirement.
 
 ## Usage Instructions
 
@@ -33,7 +47,7 @@ POST /api/message
 ```json
 {"content":"string_to_be_sent","timestamp":"yyyy-MM-dd HH:mm:ssZ"}
 ```
-##### Response
+##### Response - STATUS CODE 202
 ```json
 {
     "message": {
@@ -50,7 +64,7 @@ POST /api/message
 GET /api/message/all
 ```
 
-##### Response
+##### Response - STATUS CODE 200
 ```json
 [
   {
@@ -81,7 +95,7 @@ GET /api/message?page=0&size=25
 |-------|-----------|-----------|
 |page   |int        |page number should be > 0|
 |size   |int        |page size should be > 0 < 25|
-##### Response
+##### Response - STATUS CODE 200
 ```json
 [
   {
