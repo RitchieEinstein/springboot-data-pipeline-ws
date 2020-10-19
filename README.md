@@ -32,7 +32,7 @@ The System Design Architecture diagram is as follows.
 This service acts as the API Endpoints host. The main task of this service are as follows.
 
 - API to consume incoming messages and perform basic sanity and push them into the queue.
-- API to pull all messages / paginated message list from the database.
+- API to pull all messages / paginated message list from the database (Paginated query will order the data by Timestamp ASC).
 - Util Method to calculate the palindrome length as per the requirement.
 
 #### Websock-Streamer Service
@@ -95,12 +95,18 @@ GET /api/message/all
   },
   {
       "message": {
-          "content": "string_to_be_sent",
-          "timestamp": "2007-02-28 19:30:21+0530"
+          "content": "string_to_be_sent2",
+          "timestamp": "2067-12-28 19:30:21+0100"
       },
       "status": "ACCEPTED"
   },
-  ...
+  {
+      "message": {
+          "content": "string_to_be_sent3",
+          "timestamp": "2027-02-28 09:55:21-0400"
+      },
+      "status": "ACCEPTED"
+  }
 ]
 ```
 
@@ -130,7 +136,6 @@ GET /api/message?page=0&size=25
           "timestamp": "2008-02-28 19:30:21+0530"
       },
       "status": "ACCEPTED"
-  },
-  ...
+  }
 ]
 ```
