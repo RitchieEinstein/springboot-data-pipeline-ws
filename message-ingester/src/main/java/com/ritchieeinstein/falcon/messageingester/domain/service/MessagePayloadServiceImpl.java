@@ -20,6 +20,10 @@ public class MessagePayloadServiceImpl implements MessagePayloadService{
 
     private MessageRepository messageRepository;
 
+    public MessagePayloadServiceImpl(){
+        super();
+    }
+
     public MessagePayloadServiceImpl(CloudStreamerService cloudStreamerService, MessageRepository messageRepository) {
         this.cloudStreamerService = cloudStreamerService;
         this.messageRepository = messageRepository;
