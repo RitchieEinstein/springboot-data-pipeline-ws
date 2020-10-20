@@ -7,10 +7,12 @@ import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -35,6 +37,7 @@ public class MongoMessageRepositoryTest {
         Mockito.when(mongoTemplate.findAll(MessagePayload.class,"messagePayload")).thenReturn(Collections.emptyList());
         List<MessagePayload> messagePayloads = repo.getAllPayloads();
         Assertions.assertThat(messagePayloads.isEmpty()).isEqualTo(true);
+        Mockito.verify(mongoTemplate,Mockito.times(1)).findAll(ArgumentMatchers.eq(MessagePayload.class),ArgumentMatchers.anyString());
     }
 
     @Test
@@ -50,6 +53,18 @@ public class MongoMessageRepositoryTest {
         List<MessagePayload> receivedPayloadList = repo.getAllPayloads();
         Assertions.assertThat(receivedPayloadList.size()).isEqualTo(expectedPayloadList.size());
         Assertions.assertThat(receivedPayloadList).isEqualTo(expectedPayloadList);
+    }
+
+    @Test
+    void getAllPayloads_getCorrectClassType(){
+        List<MessagePayload> messagePayloads = repo.getAllPayloads();
+        Mockito.verify(mongoTemplate,Mockito.times(1)).findAll(MessagePayload.class,"messagePayload");
+    }
+
+    @Test
+    void getMessagesWithPagination_queryWithPageAnd(){
+        repo.getMessagesWithPagination(ArgumentMatchers.anyInt(),ArgumentMatchers.anyInt());
+        Mockito.verify(mongoTemplate,Mockito.times(1)).find(ArgumentMatchers.any(Query.class),ArgumentMatchers.eq(MessagePayload.class));
     }
 
 }
