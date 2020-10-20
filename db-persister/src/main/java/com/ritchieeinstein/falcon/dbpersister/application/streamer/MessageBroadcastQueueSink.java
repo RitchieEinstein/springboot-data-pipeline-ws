@@ -23,8 +23,16 @@ public class MessageBroadcastQueueSink {
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageBroadcastQueueSink.class);
     private static final Gson gson = new Gson();
 
-    @Autowired
     private PayloadService service;
+
+    public MessageBroadcastQueueSink(PayloadService service) {
+        this.service = service;
+    }
+
+    @Autowired
+    public void setService(PayloadService service) {
+        this.service = service;
+    }
 
     @StreamListener(target = Sink.INPUT)
     public void processIncomingPayload(String payload) throws Exception {
@@ -35,7 +43,7 @@ public class MessageBroadcastQueueSink {
             for(Object violation: constraints){
                 LOGGER.error(violation.toString());
             }
-            return;
+            throw new Exception("Validation Failed");
         }
         service.save(req.getMessagePayload());
     }

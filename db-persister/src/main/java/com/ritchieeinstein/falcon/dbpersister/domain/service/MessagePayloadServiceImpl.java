@@ -8,9 +8,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class MessagePayloadServiceImpl implements PayloadService{
 
-    @Autowired
     private MessagePayloadRepository repo;
 
+    public MessagePayloadServiceImpl(MessagePayloadRepository repo) {
+        this.repo = repo;
+    }
+
+    @Autowired
+    public void setRepo(MessagePayloadRepository repo) {
+        this.repo = repo;
+    }
 
     @Override
     public MessagePayload save(MessagePayload payload) {
