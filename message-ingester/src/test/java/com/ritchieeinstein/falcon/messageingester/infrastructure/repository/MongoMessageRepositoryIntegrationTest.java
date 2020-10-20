@@ -1,6 +1,7 @@
 package com.ritchieeinstein.falcon.messageingester.infrastructure.repository;
 
 import com.ritchieeinstein.falcon.messageingester.domain.model.MessagePayload;
+import org.aspectj.bridge.Message;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,16 +35,24 @@ public class MongoMessageRepositoryIntegrationTest {
 
     @Test
     void getAllPayloads() {
-        template.save(new MessagePayload("12345","tester"),"messagePayload");
+        List<MessagePayload> defaultPayloadList = MongoMessageRespositoryTestHelper.getAllMongoMessagePayloadMessages();
+        for(MessagePayload payload : defaultPayloadList) template.save(payload, "messagePayload");
+//        template.save(new MessagePayload("12345","tester"),"messagePayload");
         List<MessagePayload> list = repo.getAllPayloads();
-        assertThat(list.size()).isEqualTo(1);
+        for(MessagePayload payload : defaultPayloadList) assertThat(list);
 
     }
 
     @Test
     void getMessagesWithPagination() {
-        template.save(new MessagePayload("12345","tester"),"messagePayload");
-        List<MessagePayload> list = repo.getMessagesWithPagination(0,15);
-        assertThat(list.size()).isEqualTo(1);
+        List<MessagePayload> defaultPayloadList = MongoMessageRespositoryTestHelper.getAllMongoMessagePayloadMessages();
+        for(MessagePayload payload : defaultPayloadList) template.save(payload, "messagePayload");
+        List<MessagePayload> list = repo.getMessagesWithPagination(0,5);
+        System.out.println(list);
+        assertThat(list.size()).isEqualTo(5);
+        assertThat(list).containsSequence(defaultPayloadList.get(0),defaultPayloadList.get(16),defaultPayloadList.get(1), defaultPayloadList.get(15), defaultPayloadList.get(2));
+
     }
+
+
 }
