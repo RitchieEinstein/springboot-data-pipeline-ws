@@ -15,6 +15,18 @@ import org.springframework.validation.annotation.Validated;
 import javax.validation.Validation;
 import java.util.Set;
 
+/**
+ * The MessageBroadcastQueueSink utilizes the Spring Cloud Streamer for communications with the Messaging system.
+ *
+ * They can be
+ * Output -> Pushes Message into a Channel,
+ * Sink -> Pulls Message from a Channel
+ * Processor -> Pulls Message from a Channel and Process it and finally push into another channel.
+ *
+ * For our requirement, we've used the @Sink to pull message from the queue.
+ *
+ */
+
 @Component
 @Validated
 @EnableBinding(Sink.class)
