@@ -1,10 +1,13 @@
 server:
   port: 8787
+  application:
+    name: gateway-service
+
 
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://eureka-naming-server:8761/eureka
 
 spring:
   cloud:

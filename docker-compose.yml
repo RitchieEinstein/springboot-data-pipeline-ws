@@ -20,39 +20,102 @@ services:
     networks:
       - p1
 
-  db-persister:
+  eureka-naming-server:
     build:
-      context: db-persister
-      dockerfile: Dockerfile
+        context: eureka-naming-server
+        dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
     restart: always
-    depends_on:
-      - message-ingester
-      - mongo
     networks:
       - p1
 
-  message-ingester:
+  gateway-server:
+    build:
+        context: gateway-server
+        dockerfile: Dockerfile
+    ports:
+      - "8787:8787"
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://eureka-naming-server:8761/eureka
+    restart: always
+    depends_on:
+      - eureka-naming-server
+    networks:
+      - p1
+
+  message-ingester-1:
     build:
       context: message-ingester
       dockerfile: Dockerfile
     ports:
       - "10001:10000"
+    environment:
+      - spring.profiles.active=docker
+      - eureka.client.serviceUrl.defaultZone=http://eureka-naming-server:8761/eureka
+      
+    restart: always
+    depends_on:
+      - rabbit
+    networks:
+      - p1
+
+  message-ingester-2:
+    build:
+      context: message-ingester
+      dockerfile: Dockerfile
+    ports:
+      - "10002:10000"
+    environment:
+      - spring.profiles.active=docker
+      - eureka.client.serviceUrl.defaultZone=http://eureka-naming-server:8761/eureka
+      
     restart: always
     depends_on:
       - rabbit
     networks:
       - p1
     
-  websock-streamer:
+  websock-streamer-1:
     build:
       context: websock-streamer
       dockerfile: Dockerfile
     ports:
       - "11001:11000"
     restart: always
+    environment:
+      - spring.profiles.active=docker
+      - eureka.client.serviceUrl.defaultZone=http://eureka-naming-server:8761/eureka
     depends_on:
       - rabbit
-      - message-ingester
+      - message-ingester-1
+    networks:
+      - p1
+
+  # websock-streamer-2:
+  #   build:
+  #     context: websock-streamer
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "11002:11000"
+  #   restart: always
+  #   environment:
+  #     - spring.profiles.active=docker
+  #     - eureka.client.serviceUrl.defaultZone=http://eureka-naming-server:8761/eureka
+  #   depends_on:
+  #     - rabbit
+  #     - message-ingester-2
+  #   networks:
+  #     - p1
+
+  db-persister:
+    build:
+      context: db-persister
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - message-ingester-1
+      - mongo
     networks:
       - p1
 

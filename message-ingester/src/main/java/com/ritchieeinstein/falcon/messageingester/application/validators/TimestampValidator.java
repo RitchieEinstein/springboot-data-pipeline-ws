@@ -24,7 +24,6 @@ public class TimestampValidator implements ConstraintValidator<TimestampConstrai
             timestampFormat.parse(s);
             return true;
         } catch (ParseException e) {
-            e.printStackTrace();
             return false;
         }
     }
