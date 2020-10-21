@@ -14,10 +14,10 @@ the following command from the base folder of the project to start the applicati
 
 The command will take a while to build all the docker images of the microservices and initiate the docker compose.
 
-Once the application is up and running visit [http://localhost:8787/ws](http://localhost:8787/ws){:target="_blank"} to begin
+Once the application is up and running visit [http://localhost:8787/ws](http://localhost:8787/ws) to begin
 
 Note: The gateway and eureka services will take few mins to get ready after a cold start. So, incase if the requests or the page is getting a 503,
-please hit it after a couple of minutes. You can also view the status of the services in this [Link](http://localhost:8761){:target="_blank"}
+please hit it after a couple of minutes. You can also view the status of the services in this [http://localhost:8761](http://localhost:8761)
 
 To skip to the Usage part - [click here](#usage-instructions)
 
@@ -83,8 +83,17 @@ This Service is mainly used to load balance and expose all the scaled HTTP APIs 
 The main mode of data ingress for the application is through the REST API. The data egress points are REST API and browser 
 client listening to the Websockets broadcast.
 
+### HOSTNAMES
+These are the created hostname and their associated services.
+
+|Hostname   |Service    |
+|-----------|-----------|
+|[http://localhost:8787/mi](http://localhost:8787/mi)| Message Ingester Service|
+|[http://localhost:8787/ws](http://localhost:8787/ws)| WebSockets HTML Site    |
+|[http://localhost:8761/](http://localhost:8761/)    | Eureka Server HTML Page to view the MS status | 
+
 ### API Endpoints
-Here is the list of exposed API endpoints.
+Here is the list of exposed API endpoints. These APIs are exposed in the Message Ingester Microservice 
 #### Post new Message Payload
 ```http
 POST /api/message
@@ -92,6 +101,13 @@ POST /api/message
 ##### RequestBody
 ```json
 {"content":"string_to_be_sent","timestamp":"yyyy-MM-dd HH:mm:ssZ"}
+```
+
+##### Sample Query
+```shell script
+curl --location --request POST 'localhost:8787/mi/message' \
+--header 'Content-Type: application/json' \
+--data-raw '{"content": "124424","timestamp": "2007-02-28 19:30:21+0530"}'
 ```
 ##### Response - STATUS CODE 202
 ```json
@@ -108,6 +124,10 @@ POST /api/message
 ##### Request
 ```http
 GET /api/message/all
+```
+##### Sample Query
+```shell script
+curl --location --request GET 'localhost:8787/mi/message/all'
 ```
 
 ##### Response - STATUS CODE 200
@@ -147,6 +167,11 @@ GET /api/message?page=0&size=25
 |-------|-----------|-----------|
 |page   |int        |page number should be > 0|
 |size   |int        |page size should be > 0 < 25|
+
+##### Sample Query
+```shell script
+curl --location --request GET 'localhost:8787/mi/message?page=0&size=4'
+```
 ##### Response - STATUS CODE 200
 ```json
 [
