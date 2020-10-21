@@ -44,7 +44,7 @@ services:
     networks:
       - p1
 
-  message-ingester-1:
+  message-ingester:
     build:
       context: message-ingester
       dockerfile: Dockerfile
@@ -59,24 +59,8 @@ services:
       - rabbit
     networks:
       - p1
-
-  message-ingester-2:
-    build:
-      context: message-ingester
-      dockerfile: Dockerfile
-    ports:
-      - "10002:10000"
-    environment:
-      - spring.profiles.active=docker
-      - eureka.client.serviceUrl.defaultZone=http://eureka-naming-server:8761/eureka
-      
-    restart: always
-    depends_on:
-      - rabbit
-    networks:
-      - p1
     
-  websock-streamer-1:
+  websock-streamer:
     build:
       context: websock-streamer
       dockerfile: Dockerfile
@@ -88,33 +72,20 @@ services:
       - eureka.client.serviceUrl.defaultZone=http://eureka-naming-server:8761/eureka
     depends_on:
       - rabbit
-      - message-ingester-1
+      - message-ingester
     networks:
       - p1
-
-  # websock-streamer-2:
-  #   build:
-  #     context: websock-streamer
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "11002:11000"
-  #   restart: always
-  #   environment:
-  #     - spring.profiles.active=docker
-  #     - eureka.client.serviceUrl.defaultZone=http://eureka-naming-server:8761/eureka
-  #   depends_on:
-  #     - rabbit
-  #     - message-ingester-2
-  #   networks:
-  #     - p1
 
   db-persister:
     build:
       context: db-persister
       dockerfile: Dockerfile
     restart: always
+    environment:
+      - spring.profiles.active=docker
+      - eureka.client.serviceUrl.defaultZone=http://eureka-naming-server:8761/eureka
     depends_on:
-      - message-ingester-1
+      - message-ingester
       - mongo
     networks:
       - p1
