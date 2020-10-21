@@ -19,7 +19,7 @@ Once the application is up and running visit [http://localhost:8787/ws](http://l
 Note: The gateway and eureka services will take few mins to get ready after a cold start. So, incase if the requests or the page is getting a 503,
 please hit it after a couple of minutes. You can also view the status of the services in this [http://localhost:8761](http://localhost:8761)
 
-To skip to the Usage part - [click here](#usage-instructions)
+To skip to the Usage part - [click here](#demo-and-usage-instructions)
 
 ## System Design
 The Entire System is designed in Spring Environment and many spring projects are utilized to achieve a robust microservice env.
