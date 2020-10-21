@@ -14,6 +14,11 @@ the following command from the base folder of the project to start the applicati
 
 The command will take a while to build all the docker images of the microservices and initiate the docker compose.
 
+Once the application is up and running visit [http://localhost:8787/ws](http://localhost:8787/ws){:target="_blank"} to begin
+
+Note: The gateway and eureka services will take few mins to get ready after a cold start. So, incase if the requests or the page is getting a 503,
+please hit it after a couple of minutes. You can also view the status of the services in this [Link](http://localhost:8761){:target="_blank"}
+
 To skip to the Usage part - [click here](#usage-instructions)
 
 ## System Design
@@ -67,7 +72,13 @@ and mongo (or many other NoSQL) provides a good edge over the SQL systems over h
  
 Mongo was also chosen for its simplicity in implementation. (Even though it doesn't support SpringJPA, MongoTemplates does the job neatly).
 
-## Usage Instructions
+#### Eureka Server - Naming Service
+The application is built to scale individually as per requirement rather than scaling the entire application. So Eureka provides better control for scaling by providing them an aggregated service name and balance the load over them.
+
+#### Gateway Server - API Gateway Service
+This Service is mainly used to load balance and expose all the scaled HTTP APIs under a single API Endpoint exposed to the outside world.
+
+## Demo And Usage Instructions
 
 The main mode of data ingress for the application is through the REST API. The data egress points are REST API and browser 
 client listening to the Websockets broadcast.
