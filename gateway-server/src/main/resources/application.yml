@@ -1,0 +1,27 @@
+server:
+  port: 8787
+  application:
+    name: gateway-service
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-naming-server:8761/eureka
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: message-ingester-service
+          uri: lb://MESSAGE-INGESTER-SERVICE
+          predicates:
+            - Path=/mi/**
+          filters:
+            - StripPrefix=1
+        - id: websocket-streamer-service
+          uri: lb://WEBSOCKET-STREAMER-SERVICE
+          predicates:
+            - Path=/ws/**
+          filters:
+            - StripPrefix=1
