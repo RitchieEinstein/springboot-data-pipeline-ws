@@ -15,6 +15,18 @@ import org.springframework.validation.annotation.Validated;
 import javax.validation.Validation;
 import java.util.Set;
 
+/**
+ * The MessageBroadcastQueueSink utilizes the Spring Cloud Streamer for communications with the Messaging system.
+ *
+ * They can be
+ * Output -> Pushes Message into a Channel,
+ * Sink -> Pulls Message from a Channel
+ * Processor -> Pulls Message from a Channel and Process it and finally push into another channel.
+ *
+ * For our requirement, we've used the @Sink to pull message from the queue.
+ *
+ */
+
 @Component
 @Validated
 @EnableBinding(Sink.class)
@@ -23,8 +35,16 @@ public class MessageBroadcastQueueSink {
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageBroadcastQueueSink.class);
     private static final Gson gson = new Gson();
 
-    @Autowired
     private PayloadService service;
+
+    public MessageBroadcastQueueSink(PayloadService service) {
+        this.service = service;
+    }
+
+    @Autowired
+    public void setService(PayloadService service) {
+        this.service = service;
+    }
 
     @StreamListener(target = Sink.INPUT)
     public void processIncomingPayload(String payload) throws Exception {
@@ -35,7 +55,7 @@ public class MessageBroadcastQueueSink {
             for(Object violation: constraints){
                 LOGGER.error(violation.toString());
             }
-            return;
+            throw new Exception("Validation Failed");
         }
         service.save(req.getMessagePayload());
     }

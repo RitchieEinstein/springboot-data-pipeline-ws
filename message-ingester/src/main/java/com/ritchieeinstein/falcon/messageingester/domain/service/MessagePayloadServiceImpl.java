@@ -16,11 +16,28 @@ import java.util.stream.Collectors;
 @EnableBinding(CloudStreamerService.class)
 public class MessagePayloadServiceImpl implements MessagePayloadService{
 
-    @Autowired
     private CloudStreamerService cloudStreamerService;
 
-    @Autowired
     private MessageRepository messageRepository;
+
+    public MessagePayloadServiceImpl(){
+        super();
+    }
+
+    public MessagePayloadServiceImpl(CloudStreamerService cloudStreamerService, MessageRepository messageRepository) {
+        this.cloudStreamerService = cloudStreamerService;
+        this.messageRepository = messageRepository;
+    }
+
+    @Autowired
+    public void setCloudStreamerService(CloudStreamerService cloudStreamerService) {
+        this.cloudStreamerService = cloudStreamerService;
+    }
+
+    @Autowired
+    public void setMessageRepository(MessageRepository messageRepository) {
+        this.messageRepository = messageRepository;
+    }
 
     @Override
     public void pushMessageIntoQueue(MessagePayload payload) {

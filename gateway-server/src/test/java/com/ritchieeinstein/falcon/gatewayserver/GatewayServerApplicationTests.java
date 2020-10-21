@@ -1,10 +1,10 @@
-package com.ritchieeinstein.falcon.websockstreamer;
+package com.ritchieeinstein.falcon.gatewayserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class WebsockStreamerApplicationTests {
+class GatewayServerApplicationTests {
 
 	@Test
 	void contextLoads() {

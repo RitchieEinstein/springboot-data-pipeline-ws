@@ -8,8 +8,16 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class MessagePayloadRepositoryImpl implements MessagePayloadRepository {
 
-    @Autowired
     private MongoMessagePayloadRepository repo;
+
+    public MessagePayloadRepositoryImpl(MongoMessagePayloadRepository repo) {
+        this.repo = repo;
+    }
+
+    @Autowired
+    public void setRepo(MongoMessagePayloadRepository repo) {
+        this.repo = repo;
+    }
 
     @Override
     public MessagePayload save(MessagePayload payload) {
