@@ -78,6 +78,14 @@ The application is built to scale individually as per requirement rather than sc
 #### Gateway Server - API Gateway Service
 This Service is mainly used to load balance and expose all the scaled HTTP APIs under a single API Endpoint exposed to the outside world.
 
+## HLL Design
+Since the problem statement is straight forward and has fewer complexities, **Hexagonal Architecture** is chosen for implementation.
+Here, the System is broken into three modules
+- **Application Module** - Which as the adapter for the incoming data sources and handles the data validations, DTOs Req Response standards.
+- **Domain Module** - This is the core domain which holds the main Models and associated domain logics. It is in this module, all the adapter
+ and infrastructure interfaces are defined and the domain services will communicate only with respect to these contracts.
+- **Infrastructure Module** This module handles the adapters for external systems and their associated implementations.
+ 
 ## Demo And Usage Instructions
 
 The main mode of data ingress for the application is through the REST API. The data egress points are REST API and browser 
