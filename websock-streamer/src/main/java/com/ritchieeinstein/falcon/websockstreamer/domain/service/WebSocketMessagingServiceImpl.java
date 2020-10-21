@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.Payload;
 
+/**
+ * WebSocket Communication is achieved using the SimpMessaging Template.
+ */
 @Service
 public class WebSocketMessagingServiceImpl implements WebSocketMessageService{
 
@@ -20,6 +23,10 @@ public class WebSocketMessagingServiceImpl implements WebSocketMessageService{
         this.brokerMessagingTemplate = brokerMessagingTemplate;
     }
 
+    /**
+     * Application will be broadcasting at the topic "websock-relay"
+     * @param payload
+     */
     @Override
     public void pushSocketFrame(MessagePayload payload) {
         if(null == payload) throw new NullPointerException("Payload should not be null");

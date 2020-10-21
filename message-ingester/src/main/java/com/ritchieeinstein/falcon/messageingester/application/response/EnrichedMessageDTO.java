@@ -3,6 +3,10 @@ package com.ritchieeinstein.falcon.messageingester.application.response;
 import com.ritchieeinstein.falcon.messageingester.domain.model.MessagePayload;
 import com.ritchieeinstein.falcon.messageingester.domain.utils.PalindromeUtils;
 
+/**
+ * EnrichedMessageDTO is the Response DTO for the GET requests which needs the palindrome. Since, this DTO is kind of a Value Object where the
+ * longestPalindromeSize is always dependent on the content (by the business requirement), the longestPalindrome is poplated at the origin of the DTO.
+ */
 public class EnrichedMessageDTO {
 
     private String content;

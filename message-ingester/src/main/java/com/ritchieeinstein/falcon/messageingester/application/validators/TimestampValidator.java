@@ -8,6 +8,11 @@ import javax.validation.ConstraintValidatorContext;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+/**
+ * TimestampValidator is created for validating an incoming timestamp with the predefined timestamp format "yyyy-MM-dd HH:mm:ssZ".
+ * 
+ */
+
 public class TimestampValidator implements ConstraintValidator<TimestampConstraint, String> {
 
     private static final SimpleDateFormat timestampFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssZ");

@@ -8,6 +8,13 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+/**
+ * The WebSocket Has been configured to not operate as a stand alone host for the clients but as a distributed host service.
+ * In order to maintain the state of the broadcast being sent to all the users, the messages will be pushed to a relay host
+ * (in our case RabbitMQ) which has STOMP Support and all the messages will be read from there.
+ *
+ * This configuration part is designed to achieve it.
+ */
 @Configuration
 @EnableWebSocketMessageBroker
 public class RelayWebSocketConfig implements WebSocketMessageBrokerConfigurer {

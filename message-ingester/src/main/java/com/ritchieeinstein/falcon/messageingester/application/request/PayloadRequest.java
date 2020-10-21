@@ -8,11 +8,18 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.beans.Transient;
 
+/**
+ * The Incoming Message Payload's DTO with field level constriants implemented for validations.
+ */
+
 public class PayloadRequest {
 
     @NotEmpty
     private String content;
 
+    /**
+     * The Timestamp given as a string needs to be validated for the factual nature of it. The Timestamp annotation will be perform a custom validation over it.
+     */
     @TimestampConstraint
     private String timestamp;
 

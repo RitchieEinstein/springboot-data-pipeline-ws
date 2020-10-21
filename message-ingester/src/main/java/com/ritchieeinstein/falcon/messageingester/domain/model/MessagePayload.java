@@ -27,6 +27,11 @@ public class MessagePayload {
         this.timestamp = timestamp;
     }
 
+    /**
+     * IntelliJ generated Equals and HashCode for better comparisons.
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

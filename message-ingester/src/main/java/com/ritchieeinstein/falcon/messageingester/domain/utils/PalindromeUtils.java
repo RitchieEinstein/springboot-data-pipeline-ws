@@ -3,7 +3,8 @@ package com.ritchieeinstein.falcon.messageingester.domain.utils;
 import org.springframework.util.StringUtils;
 
 /**
- *
+ * The Palindrome Calculating Util helper. This was deisgned to be a static method But due to test coverage complexity
+ * and time contraint, have to settle up with an object approach
  */
 
 public class PalindromeUtils {

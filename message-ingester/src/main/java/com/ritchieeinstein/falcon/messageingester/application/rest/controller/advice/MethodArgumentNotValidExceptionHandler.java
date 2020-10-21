@@ -13,6 +13,11 @@ import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The Exceptions are intercepted here and are formatted into a proper Error Response rather than a bulk of Stack Trace.
+ * Mainly concentrating on getting the constraints from the errors and modify them as Error POJO reponse.
+ */
+
 @RestControllerAdvice
 public class MethodArgumentNotValidExceptionHandler {
 

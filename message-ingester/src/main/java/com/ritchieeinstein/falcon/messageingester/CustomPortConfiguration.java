@@ -6,6 +6,10 @@ import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerF
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.SocketUtils;
 
+/**
+ * This is a totally Optional Configuration. (Especially used for Eureka) to find a random available port. Used mainly for a Same IP scaling.
+ */
+
 @Configuration
 public class CustomPortConfiguration implements WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> {
 

@@ -1,5 +1,10 @@
 package com.ritchieeinstein.falcon.messageingester.application.response;
 
+/**
+ * The Default Generic Response for the Requests placed.
+ * @param <T> will be the incoming request.
+ */
+
 public class GenericResponse<T> {
 
     private T message;
