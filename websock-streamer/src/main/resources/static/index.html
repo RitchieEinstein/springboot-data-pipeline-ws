@@ -14,7 +14,7 @@
                 if(msg == undefined || msg == null || msg == '') return;
                 var isoTimestampString = new Date().toISOString();
                 var timestampString = isoTimestampString.split('T')[0] + " " + isoTimestampString.split('T')[1];
-                alert(timestampString);
+                var d = new Date();
                 var d = new Date();
                 var m = moment(d).format();
                 var res1 = m.replace('T',' ');
@@ -44,7 +44,6 @@
 
             }
             var stompClient = null;
-            alert(new Date().getTime());
             function setConnected(connected) {
                 document.getElementById('mainDiv').style.visibility
                   = connected ? 'visible' : 'hidden';
